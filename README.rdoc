@@ -68,17 +68,11 @@ Then, create a simple controller:
   
 A couple things to note here:
 
-1. It still looks like Sinatra - no separate routes.rb file you have to cross-reference
-to figure out what method is called how.
+1. It still looks like Sinatra - no separate routes.rb file you have to cross-reference to figure out what method is called how.
 
-2. The familiar +get+, +post+, etc DSL verbs are extended to accept (a) a relative path
-or (b) no path at all.  If a relative path is specified, the path is prefixed with +route_prefix+
-(the controller name by default).  If no path is specified, then the +default_route+ is used.
+2. The familiar +get+, +post+, etc DSL verbs are extended to accept (a) a relative path or (b) no path at all.  If a relative path is specified, the path is prefixed with +route_prefix+ (the controller name by default).  If no path is specified, then the +default_route+ is used.
 
-3. You can continue to use a /full/url in any +get+, +post+, etc DSL block and it will work
-just like you're used to.
+3. You can continue to use a /full/url in any +get+, +post+, etc DSL block and it will work just like you're used to.
 
-4. You *are NOT required* to suffix your controllers with "_controller".  However, be careful
-that your controller names don't collide with your model names or you will have issues (this
-is just standard Ruby, but an easy mistake to make).
+4. You *are NOT required* to suffix your controllers with "_controller".  However, be careful that your controller names don't collide with your model names or you will have issues (this is just standard Ruby, but an easy mistake to make).
 
