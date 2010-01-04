@@ -1,0 +1,89 @@
+= Sinatra::Controller - Lightweight, fast controllers for Sinatra
+
+This gem provides a Sinatra controller implementation that gets you the
+MVC functionality you need in a fraction of the LOC of a Rails controller.
+Using Sinatra::Controller has several advantages over a standard Sinatra app:
+
+1. Keeps code much DRYer (meaning less bugs)
+2. Provides per-route before/after filters
+3. Safely encapsulates routes/actions from each other
+4. Enables custom (or multiple) view layouts
+
+Sinatra::Controller is implemented as a subclass of Sinatra::Base, which
+means it is completely compatible with other Sinatra plugins.
+
+Enough talk, let's dance.
+
+== Installation
+
+Install gemcutter if you don't have it already:
+
+	sudo gem install gemcutter
+	sudo gem tumble
+	
+Now install this gem:
+
+	sudo gem install sinatra-application
+	
+== Example
+
+In your main Sinatra application/environment file, create a subclass that all
+your other controllers will inherit from:
+
+	require 'sinatra/base'
+	require 'sinatra/controller'
+
+	class Application < Sinatra::Controller
+		# Any Sinatra configuration goes here
+	end
+
+Since Sinatra::Controller is a subclass of Sinatra::Base, simply configure
+your application using the {Sinatra configuration options}[http://www.sinatrarb.com/configuration.html].
+
+Then, create a simple controller:
+
+	# app/controllers/users_controller.rb
+	class UsersController < Application
+		layout 'main'
+		get do
+			erb 'index'
+		end
+		post do
+			@user = User.create(params[:user])
+			erb 'show'
+		end
+		get ':id' do
+			@user = User.find(params[:id])
+			erb 'show'
+		end
+		put ':id' do
+			@user = User.find(params[:id])
+			@user.update_attributes(params[:user])
+			erb 'show'
+		end
+		delete ':id' do
+			@user = User.find(params[:id])
+			@user.destroy
+		  halt 200
+		end
+	end
+	
+A couple things to note here:
+
+1. It still looks like Sinatra - no separate routes.rb file you have to cross-reference
+to figure out what method is called how.
+
+2. The familiar +get+, +post+, etc DSL verbs are extended to accept (a) a relative path
+or (b) no path at all.  If a relative path is specified, the path is prefixed with +route_prefix+
+(the controller name by default).  If no path is specified, then the +default_route+ is used.
+
+3. You can continue to use a /full/url in any +get+, +post+, etc DSL block and it will work
+just like you're used to.
+
+4. You *are NOT required* to suffix your controllers with "_controller".  However, be careful
+that your controller names don't collide with your model names or you will have issues (this
+is just standard Ruby, but an easy mistake to make).
+
+
+
+	
